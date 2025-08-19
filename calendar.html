@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Event Calendar</title>
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 20px;
+    }
+    #calendar {
+      max-width: 900px;
+      margin: 0 auto 40px;
+    }
+    .extra-links {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    .extra-links a {
+      color: #007bff;
+      text-decoration: none;
+    }
+    .extra-links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h2>Upcoming Events</h2>
+
+  <div id="calendar"></div>
+
+  <div class="extra-links">
+    <h3>More Links</h3>
+    <ul id="extra-events"></ul>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // All events
+      const events = [
+        { title: "VHMA 2025 Annual Meeting and Conference 2025 day 1", date: "2025-09-04", url: "https://www.vhma.org/news-events/upcoming-events" },
+		{ title: "VHMA 2025 Annual Meeting and Conference 2025 day 2", date: "2025-09-05", url: "https://www.vhma.org/news-events/upcoming-events" },
+		{ title: "VHMA 2025 Annual Meeting and Conference 2025 last day", date: "2025-09-06", url: "https://www.vhma.org/news-events/upcoming-events" },
+        { title: "Deadline for space closes - Advertise in the 2025  AAEP’s 71st Annual Convention Program in Denver, Colorado", date: "2025-09-29", url: "https://aaep.org/get-involved/sponsorship-advertising/" },
+		{ title: "Deadline for creative closes - Advertise in the 2025  AAEP’s 71st Annual Convention Program in Denver, Colorado", date: "2025-10-13", url: "https://aaep.org/get-involved/sponsorship-advertising/" },
+        { title: "Equine Affaire - November 6th - 9th, 2025 - Eastern States Exposition W. Springfield, MA Day 1", date: "2025-11-o6", url: "https://equineaffaire.com/events/ohio/" },
+		{ title: "Equine Affaire - November 6th - 9th, 2025 - Eastern States Exposition W. Springfield, MA Day 2", date: "2025-11-o7", url: "https://equineaffaire.com/events/ohio/" },
+		{ title: "Equine Affaire - November 6th - 9th, 2025 - Eastern States Exposition W. Springfield, MA Day 3", date: "2025-11-o8", url: "https://equineaffaire.com/events/ohio/" },
+		{ title: "Equine Affaire - November 6th - 9th, 2025 - Eastern States Exposition W. Springfield, MA Last Day", date: "2025-11-o9", url: "https://equineaffaire.com/events/ohio/" },
+        { title: "AAEP’s 71st Annual Convention December (6 - 10) 2025  - Colorado convention center Day 1", date: "2025-12-06", url: "https://convention.aaep.org/" },
+		{ title: "AAEP’s 71st Annual Convention December (6 - 10) 2025  - Colorado convention center Day 2", date: "2025-12-07", url: "https://convention.aaep.org/" },
+		{ title: "AAEP’s 71st Annual Convention December (6 - 10) 2025  - Colorado convention center Day 3", date: "2025-12-08", url: "https://convention.aaep.org/" },
+		{ title: "AAEP’s 71st Annual Convention December (6 - 10) 2025  - Colorado convention center Day 4", date: "2025-12-09", url: "https://convention.aaep.org/" },
+		{ title: "AAEP’s 71st Annual Convention December (6 - 10) 2025  - Colorado convention center Last Day", date: "2025-12-10", url: "https://convention.aaep.org/" }, 
+		{ title: "Contact - Independent Veterinarians Association", date: "", url: "https://www.iveterinarians.org" },
+		{ title: "Worldwide events", date: "", url: "https://horseandcountry.tv/liveevents?no-redirect=1" }
+		    
+]
+      // First 4 go into calendar
+      const calendarEvents = events.slice(0, 14);
+
+      // Rest go into extra links
+      const extraEvents = events.slice(14);
+      const extraList = document.getElementById("extra-events");
+      extraEvents.forEach(evt => {
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = evt.url;
+        a.target = "_blank";
+        a.textContent = `${evt.title} `;
+        li.appendChild(a);
+        extraList.appendChild(li);
+      });
+
+      // Calendar setup
+      const calendarEl = document.getElementById('calendar');
+      const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        events: calendarEvents,
+		eventDidMount: function(info) {
+  info.el.setAttribute("title", info.event.title);
+},
+        eventClick: function(info) {
+          info.jsEvent.preventDefault();
+          if (info.event.url) {
+            window.open(info.event.url, "_blank");
+          }
+        }
+      });
+      calendar.render();
+    });
+  </script>
+</body>
+</html>
